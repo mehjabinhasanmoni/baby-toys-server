@@ -76,19 +76,35 @@ async function run() {
     })
 
     // Update MyToys
-    
-    app.patch('/myToys/:id', async(req, res) => {
+
+
+    app.get('/myToys/:id', async(req, res) => {
         const id = req.params.id;
-        const filter = {_id: new ObjectId(id)}
-        const updatedMyToys = req.body;
-        const updateDoc = {
-            $set:{
-                status: updatedMyToys.status
-            }
-        };
-        const result = await toysCollection.updateOne(filter, updateDoc);
+        const query = {_id: new ObjectId(id)}
+        const result = await toysCollection.findOne(query);
         res.send(result);
     })
+
+    app.put('/myToys/:id', async(req, res) => {
+        const id = req.params.id;
+        const filter = {_id: new ObjectId(id)}
+        const options = { upsert:true };
+        const updateDoc = req.body;
+
+        const toy = {
+                    $set:{
+                        qty: updateDoc.qty,
+                        price:updateDoc.price,
+                        description:updateDoc.description
+                    }
+                };
+
+         const result = await toysCollection.updateOne(filter, toy, options);
+         res.send(result);
+
+    })
+
+
 
 
     // Delete MyToys
