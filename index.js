@@ -94,8 +94,8 @@ async function run() {
         const toy = {
                     $set:{
                         qty: updateDoc.qty,
-                        price:updateDoc.price,
-                        description:updateDoc.description
+                        price: updateDoc.price,
+                        description: updateDoc.description
                     }
                 };
 
