@@ -75,7 +75,23 @@ async function run() {
 
     })
 
-    // Delete purpose
+    // Update MyToys
+    
+    app.patch('/myToys/:id', async(req, res) => {
+        const id = req.params.id;
+        const filter = {_id: new ObjectId(id)}
+        const updatedMyToys = req.body;
+        const updateDoc = {
+            $set:{
+                status: updatedMyToys.status
+            }
+        };
+        const result = await toysCollection.updateOne(filter, updateDoc);
+        res.send(result);
+    })
+
+
+    // Delete MyToys
     app.delete('/myToys/:id', async(req, res) => {
         const id = req.params.id;
         const query = {_id: new ObjectId(id)}
